@@ -35,24 +35,23 @@ ADD db2dsdriver.cfg /opt/ibm/dsdriver/cfg/db2dsdriver.cfg
 
 # download application
 WORKDIR /cache
-RUN wget https://github.com/jeffbonhag/d2b2/archive/master.zip
+RUN wget https://github.com/jeffbonhag/myapp/archive/master.zip
 RUN unzip master.zip
-WORKDIR /cache/d2b2-master
-ADD app.config /cache/d2b2-master/DB2/app.config
-RUN cat /cache/d2b2-master/DB2/app.config
+WORKDIR /cache/myapp-master
+ADD app.config /cache/myapp-master/MyApp/app.config
 
 # restore nuget packages
 RUN wget -P /usr/local/bin http://nuget.org/nuget.exe
 RUN mozroots --import --machine --sync
-RUN /usr/local/bin/mono /usr/local/bin/nuget.exe restore DB2.sln
+RUN /usr/local/bin/mono /usr/local/bin/nuget.exe restore MyApp.sln
 
 # build and install
 RUN xbuild
 RUN mkdir /app
-RUN mv /cache/d2b2-master/DB2/bin/Debug/* /app
+RUN mv /cache/myapp-master/MyApp/bin/Debug/* /app
 
 # clean cache
 RUN rm -fr /cache
 
-CMD ["/usr/local/bin/mono", "/app/DB2.exe"]
+CMD ["/usr/local/bin/mono", "/app/MyApp.exe"]
 
