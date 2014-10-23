@@ -1,0 +1,19 @@
+You need to download the IBM Data Server Driver, from:
+https://www14.software.ibm.com/webapp/iwm/web/preLogin.do?source=swg-idsdpds
+
+it should be called:
+ibm_data_server_driver_package_linuxx64_v10.5.tar.gz
+
+The configuration files assume that there is a DB2 instance running on
+port 50001, *or* port 50001 is forwarded over SSH.
+
+Building
+========
+
+    docker build -t doritos .
+
+Running
+=======
+
+    docker run -e "LD_LIBRARY_PATH=/opt/ibm/dsdriver/lib" -it doritos
+
