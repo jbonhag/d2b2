@@ -1,6 +1,6 @@
 FROM debian:stable
 RUN apt-get -y update
-RUN apt-get -y install wget bzip2
+RUN apt-get -y install wget bzip2 gcc g++ gettext make pkg-config ksh unzip
 
 RUN mkdir /cache
 
@@ -11,9 +11,7 @@ RUN wget http://download.mono-project.com/sources/mono/mono-3.10.0.tar.bz2
 RUN sha1sum -c mono-3.10.0.tar.bz2.sha1
 RUN tar xvf mono-3.10.0.tar.bz2 -C /cache
 WORKDIR /cache/mono-3.10.0
-RUN apt-get -y install gcc g++ gettext
 RUN ./configure
-RUN apt-get -y install make
 RUN make && make install
 ADD etc-mono-config /usr/local/etc/mono/config
 
@@ -24,7 +22,6 @@ RUN wget http://download.mono-project.com/sources/xsp/xsp-2.10.2.tar.bz2
 RUN sha1sum -c xsp-2.10.2.tar.bz2.sha1
 RUN tar xvf xsp-2.10.2.tar.bz2 -C /cache
 WORKDIR /cache/xsp-2.10.2
-RUN apt-get -y install pkg-config ksh unzip
 RUN ./configure && make && make install
 
 # set up data server client
